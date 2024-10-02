@@ -1,13 +1,22 @@
-name: Build and Run Script
+name: Auto Commit and Push
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * *"
+    - cron: "0 16 * * *"
 
 jobs:
-  build-and-run:
+  auto-commit-and-push:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.FINE_GRAINED_PAT }}  # Use fine-grained PAT for checkout
+          fetch-depth: 0  # Fetch all history to ensure we can commit and push
+          ref: 'playit-only'  # Checkout the playit-only branch
 
       - name: Install dependencies
         run: npm i
@@ -18,5 +27,57 @@ jobs:
       - name: Build script
         run: npm run build
 
-      - name: Start script
-        run: npm run start
+      - name: Start script and Auto commit and push changes every 30 seconds
+        env:
+          FINE_GRAINED_PAT: ${{ secrets.FINE_GRAINED_PAT }}
+          REPO: ${{ github.repository }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          # Function to commit and push changes
+          commit_and_push() {
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+
+            git add -A -f
+            
+            if git diff --quiet; then
+              echo "No changes detected by Git."
+            else
+              echo "Changes detected, proceeding to commit and push."
+            fi
+
+            git commit -m "Auto commit every 30 seconds [no ci]"
+            for i in {1..3}; do
+                if git push https://x-access-token:${FINE_GRAINED_PAT}@github.com/${GITHUB_REPOSITORY}.git HEAD:playit-only --force; then
+                    echo "Push successful on attempt $i"
+                    return 0
+                else
+                    echo "Push failed on attempt $i, retrying..."
+                    git pull --rebase
+                fi
+            done
+            echo "Failed to push after 3 attempts"
+            return 1
+          }
+
+          # Run npm start in the background
+          npm run start &
+
+          # Run the commit and push function every 30 seconds
+          while true; do
+            if ! commit_and_push; then
+                echo "Commit and push failed, continuing without stopping the workflow"
+            fi
+            sleep 30
+          done          
+
+      - name: Rerun workflow if previous step failed
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.FINE_GRAINED_PAT }}
+        run: |
+          curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/blank.yml/dispatches" \
+            -d '{"ref":"playit-only"}'
+          echo "Workflow rerun triggered due to previous step failure"
