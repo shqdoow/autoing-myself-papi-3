@@ -3,7 +3,7 @@
     "sessionPath": "sessions",
     "headless": true,
     "runOnZeroPoints": false,
-    "clusters": 3,
+    "clusters": 1,
     "saveFingerprint": false,
     "workers": {
         "doDailySet": true,
