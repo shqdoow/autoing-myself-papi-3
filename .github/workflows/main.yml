@@ -1,4 +1,4 @@
-name: Docker Compose CI/CD
+name: Microsoft Rewards Script Docker
 
 on:
   push:
@@ -6,15 +6,24 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-run:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build and start container
+      - name: Build Docker image
         run: |
-          docker-compose up -d
+          docker build -t microsoft-rewards-script-docker .
+
+      - name: Run Docker container
+        run: |
+          docker run --name netsky -d \
+          -e TZ=America/New_York \
+          -e HEADLESS=true \
+          -e RUN_ON_START=true \
+          -e CRON_START_TIME="0 5,11 * * *" \
+          microsoft-rewards-script-docker
 
       - name: View logs
         run: |
