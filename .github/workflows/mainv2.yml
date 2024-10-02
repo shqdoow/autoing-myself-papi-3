@@ -16,6 +16,7 @@ jobs:
         with:
           token: ${{ secrets.FINE_GRAINED_PAT }}  # Use fine-grained PAT for checkout
           fetch-depth: 0  # Fetch all history to ensure we can commit and push
+          ref: 'playit-only'  # Checkout the playit-only branch
 
       - name: Install dependencies
         run: npm i
@@ -37,11 +38,9 @@ jobs:
             git config --local user.email "github-actions[bot]@users.noreply.github.com"
             git config --local user.name "github-actions[bot]"
 
-            # **Force adding all files - this is the key change**
-            git add -A -f 
+            git add -A -f
             
-            # Check if there are any changes to commit (for informational purposes)
-            if git diff --quiet; then 
+            if git diff --quiet; then
               echo "No changes detected by Git."
             else
               echo "Changes detected, proceeding to commit and push."
@@ -49,7 +48,7 @@ jobs:
 
             git commit -m "Auto commit every 30 seconds [no ci]"
             for i in {1..3}; do
-                if git push https://x-access-token:${FINE_GRAINED_PAT}@github.com/${GITHUB_REPOSITORY}.git HEAD:main --force; then
+                if git push https://x-access-token:${FINE_GRAINED_PAT}@github.com/${GITHUB_REPOSITORY}.git HEAD:playit-only --force; then
                     echo "Push successful on attempt $i"
                     return 0
                 else
@@ -77,5 +76,5 @@ jobs:
           curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/repos/${{ github.repository }}/actions/workflows/blank.yml/dispatches" \
-            -d '{"ref":"main"}'
+            -d '{"ref":"playit-only"}'
           echo "Workflow rerun triggered due to previous step failure"
