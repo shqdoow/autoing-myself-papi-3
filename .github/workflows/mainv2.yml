@@ -27,7 +27,7 @@ jobs:
       - name: Build script
         run: npm run build
 
-      - name: Auto commit and push changes every 30 seconds
+      - name: Start script and Auto commit and push changes every 30 seconds
         env:
           FINE_GRAINED_PAT: ${{ secrets.FINE_GRAINED_PAT }}
           REPO: ${{ github.repository }}
@@ -60,13 +60,16 @@ jobs:
             return 1
           }
 
+          # Run npm start in the background
+          npm run start &
+
           # Run the commit and push function every 30 seconds
           while true; do
             if ! commit_and_push; then
                 echo "Commit and push failed, continuing without stopping the workflow"
             fi
             sleep 30
-          done
+          done          
 
       - name: Rerun workflow if previous step failed
         if: failure()
