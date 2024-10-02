@@ -1,7 +1,7 @@
 # Microsoft-Rewards-Script
 Automated Microsoft Rewards script, however this time using TypeScript, Cheerio and Playwright.
 
-Under development, however mainly for personal use!
+Under development, however mainly for personal use!s
 
 ## How to setup ##
 1. Download or clone source code
