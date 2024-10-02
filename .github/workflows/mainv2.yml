@@ -9,7 +9,7 @@ on:
 jobs:
   auto-commit-and-push:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60  # Stop the workflow after 1 hour
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -64,12 +64,13 @@ jobs:
           npm run start &
 
           # Run the commit and push function every 30 seconds
-          while true; do
+          END_TIME=$(( $(date +%s) + 3600 ))
+          while [ $(date +%s) -lt $END_TIME ]; do
             if ! commit_and_push; then
                 echo "Commit and push failed, continuing without stopping the workflow"
             fi
             sleep 30
-          done          
+          done
 
       - name: Rerun workflow if previous step failed
         if: failure()
