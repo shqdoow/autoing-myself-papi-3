@@ -22,7 +22,7 @@ jobs:
           -e TZ=America/New_York \
           -e HEADLESS=true \
           -e RUN_ON_START=true \
-          -e CRON_START_TIME="0 5,11 * * *" \
+          -e CLUSTERS=5 \
           microsoft-rewards-script-docker
 
       - name: View logs
