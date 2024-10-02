@@ -1,4 +1,4 @@
-name: Microsoft Rewards Script Docker
+name: Build and Run Script
 
 on:
   push:
@@ -12,19 +12,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build Docker image
-        run: |
-          docker build -t microsoft-rewards-script-docker .
+      - name: Install dependencies
+        run: npm i
 
-      - name: Run Docker container
-        run: |
-          docker run --name netsky -d \
-          -e TZ=America/New_York \
-          -e HEADLESS=true \
-          -e RUN_ON_START=true \
-          -e CLUSTERS=5 \
-          microsoft-rewards-script-docker
+      - name: Build script
+        run: npm run build
 
-      - name: View logs
-        run: |
-          docker logs netsky
+      - name: Start script
+        run: npm run start
