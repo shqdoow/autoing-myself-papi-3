@@ -2,6 +2,8 @@ name: Clone Microsoft Rewards Script
 
 on:
   workflow_dispatch:  # This allows manual triggering of the workflow
+  schedule:
+    - cron: '0 0 * * *'  # This will run the workflow daily at midnight UTC
 
 jobs:
   clone-repo:
@@ -14,3 +16,6 @@ jobs:
     - name: Clone Microsoft Rewards Script
       run: |
         git clone https://github.com/TheNetsky/Microsoft-Rewards-Script.git
+        ls -R Microsoft-Rewards-Script  # Optional: List the contents of the cloned repository
+
+    # Optional: You can add more steps here to handle the cloned files as needed
