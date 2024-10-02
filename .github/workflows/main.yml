@@ -1,9 +1,6 @@
 name: Build and Run Script
 
-on:
-  push:
-    branches:
-      - main
+on: workflow_run
 
 jobs:
   build-and-run:
