@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: "0 8 * * *"
     - cron: "0 16 * * *"
+  workflow_dispatch: # This is the workflow dispatch trigger
 
 jobs:
   build-and-run:
