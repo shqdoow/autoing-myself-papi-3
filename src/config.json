@@ -4,7 +4,7 @@
     "headless": true,
     "runOnZeroPoints": false,
     "clusters": 1,
-    "saveFingerprint": false,
+    "saveFingerprint": true,
     "workers": {
         "doDailySet": true,
         "doMorePromotions": true,
