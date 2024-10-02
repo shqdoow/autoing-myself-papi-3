@@ -1,0 +1,16 @@
+name: Clone Microsoft Rewards Script
+
+on:
+  workflow_dispatch:  # This allows manual triggering of the workflow
+
+jobs:
+  clone-repo:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Clone Microsoft Rewards Script
+      run: |
+        git clone https://github.com/TheNetsky/Microsoft-Rewards-Script .
