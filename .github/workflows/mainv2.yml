@@ -9,7 +9,7 @@ on:
 jobs:
   auto-commit-and-push:
     runs-on: ubuntu-latest
-    timeout-minutes: 60  # Stop the workflow after 1 hour
+    timeout-minutes: 35  # Stop the workflow after 1 hour
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
