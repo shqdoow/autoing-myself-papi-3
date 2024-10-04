@@ -1,0 +1,33 @@
+version: 2.1
+
+jobs:
+  build-and-run:
+    docker:
+      - image: cimg/node:latest
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm i
+      - run:
+          name: Install Playwright browsers
+          command: npx playwright install
+      - run:
+          name: Build script
+          command: npm run build
+      - run:
+          name: Start script
+          command: npm run start
+
+workflows:
+  version: 2
+  twice-daily:
+    triggers:
+      - schedule:
+          cron: "0 0,12 * * *"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - build-and-run
