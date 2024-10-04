@@ -18,6 +18,8 @@ jobs:
       - run:
           name: Start script
           command: npm run start
+          no_output_timeout: 10m  # Optional: adjust this timeout if needed
+    timeout: 50m  # Set the timeout to 50 minutes
 
 workflows:
   version: 2
