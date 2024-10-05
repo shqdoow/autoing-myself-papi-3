@@ -1,4 +1,4 @@
-name: Build and Run Script
+name: Build and Run Scrip
 
 on: workflow_dispatch
 
