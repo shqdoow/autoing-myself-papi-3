@@ -1,22 +1,22 @@
-name: Build and Run Scrip
+name: Build and Run Script
 
 on: workflow_dispatch
 
 jobs:
-build-and-run:
-runs-on: ubuntu-latest
-steps:
-- name: Checkout code
-uses: actions/checkout@v2
+  build-and-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-- name: Install dependencies
-run: npm i
+      - name: Install dependencies
+        run: npm install
 
-- name: Install Playwright browsers
-run: npx playwright install
+      - name: Install Playwright browsers
+        run: npx playwright install
 
-- name: Build script
-run: npm run build
+      - name: Build script
+        run: npm run build
 
-- name: Start script
-run: npm run start
+      - name: Start script
+        run: npm run start
