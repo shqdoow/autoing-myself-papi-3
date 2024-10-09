@@ -1,6 +1,9 @@
 name: Build and Run Script
 
-on: workflow_dispatch
+on:
+  schedule:
+    - cron: '0 0,12 * * *'  # Runs at 00:00 and 12:00 UTC every day
+  workflow_dispatch:
 
 jobs:
   build-and-run:
