@@ -3,8 +3,8 @@
         "email": "an.sle.y.la.r.a047@googlemail.com",
         "password": "Tr6!9Kl#mN0p$X",
         "proxy": {
-            "url": "",
-            "port": 0,
+            "url": "http://72.10.160.173",
+            "port": 8355,
             "username": "",
             "password": ""
         }
@@ -13,8 +13,8 @@
         "email": "rhi.onawe.s.a.rd.o@googlemail.com",
         "password": "Zx9#mK2$pL7@vR3",
         "proxy": {
-            "url": "",
-            "port": 0,
+            "url": "http://67.43.236.18",
+            "port": 16311,
             "username": "",
             "password": ""
         }
