@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-run:
     runs-on: ubuntu-latest
-    timeout-minutes: 60  # 1 hour timeout
+    timeout-minutes: 240  # 1 hour timeout
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
