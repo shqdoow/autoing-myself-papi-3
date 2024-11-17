@@ -9,4 +9,16 @@
             "username": "",
             "password": ""
         }
+    },
+    {
+        "email": "",
+        "password": "",
+        "proxy": {
+            "proxyAxios": true,
+            "url": "",
+            "port": 0,
+            "username": "",
+            "password": ""
+        }
     }
+]
